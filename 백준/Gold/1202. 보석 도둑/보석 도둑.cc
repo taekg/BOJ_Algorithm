@@ -8,8 +8,8 @@ using namespace std;
 
 struct Cubic
 {
-	long long weight;
-	long long value;
+	int weight;
+	int value;
 
 	bool operator<(Cubic Right) const {
 		if (weight > Right.weight)return true;
@@ -20,8 +20,8 @@ struct Cubic
 
 struct lanecb
 {
-	long long weight;
-	long long value;
+	int weight;
+	int value;
 	bool operator<(lanecb right) const {
 		if (value < right.value)return true;
 		if (value > right.value)return false;
@@ -41,8 +41,8 @@ void input() {
 	cin >> N >> K;
 	for (int i = 0; i < N; i++)
 	{
-		long long m = 0;
-		long long v = 0;
+		int m = 0;
+		int v = 0;
 		cin >> m >> v;
 		Cv.push({ m,v });
 	}
