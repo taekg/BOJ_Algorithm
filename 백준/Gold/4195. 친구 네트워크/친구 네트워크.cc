@@ -8,7 +8,9 @@ using namespace std;
 
 int T;
 int F;
+// 몇명의 사람이 친구가 되었는지 친구수 저장 
 unordered_map<string, int>nm;
+// UnionFind Arr 역할
 unordered_map<string, string>um;
 
 void init() {
@@ -27,18 +29,12 @@ void setUnion(string str1, string str2) {
 	string t1 = find(str1);
 	string t2 = find(str2);
 	if (t1 == t2)return;
-	//int Sum = um[t2][0].Cnt;
-	//int nowNum = um[t1][0].Cnt;
-	//int totalFr = Sum + nowNum;
-
-	//int fn = nm[t2];
-	//int sn = nm[t1];
-	//int total = fn + sn;
-	//um[t2].push_back({t1, um[t2][0].Cnt});
+	
+	// t2는 t1의 친구가 되었다
 	um[t2]= t1;
-	//um[t1][0].Cnt = totalFr;
+	// 친구가 되었다면 친구수 더해서 저장
 	nm[t1] += nm[t2];
-	//um[t1].push_back({ t1, totalFr });
+
 }
 
 void input() {
@@ -47,6 +43,8 @@ void input() {
 	{
 		string str1, str2 = " ";
 		cin >> str1 >> str2;
+		// 새롭게 나온친구라면 Arr에 추가
+		// find하기 전 그 친구는 혼자 이므로 1로 저장
 		if (um.count(str1) == 0) {
 			um[str1] = str1;
 			nm[str1] = 1;
@@ -55,7 +53,8 @@ void input() {
 			um[str2]=str2;
 			nm[str2] = 1;
 		}
-
+		// endl 사용하면 시간초과
+		// '\n'이 훨씬 빠르다
 		setUnion(str1, str2);
 		cout << nm[find(str1)] << '\n';
 	}
