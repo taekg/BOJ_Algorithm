@@ -6,7 +6,6 @@
 #include<queue>
 using namespace std;
 
-
 // dp[4][0] = 4 + dp[5][1] = 4;
 // dp[4][1] = max(dp[5][1], dp[5][0]) = 5;
 // dp[3][0] = 3 + dp[4][1] = 8(OXO)
@@ -28,7 +27,9 @@ using namespace std;
 
 int N;
 int citizen[10001];
+// 방문 체크
 int visited[10001];
+// 그 마을에서의 값 저장 (시간 단축용)
 int save[10001][2];
 vector<int>route[10001];
 
@@ -43,6 +44,7 @@ void input() {
 	{
 		int fr, en = 0;
 		cin >> fr >> en;
+		// 경로 저장
 		route[fr].push_back(en);
 		route[en].push_back(fr);
 	}
@@ -63,16 +65,20 @@ int func(int now, int good) {
 		int childbad = save[route[now][i]][0];
 		// now번째 마을이 우수마을일때
 		// 자기 자신 마을의 시민수를 더한다
+		// 자식 마을은 무조건 보통 마을이 되어야한다
 		if (good) {
+			// 이미 저장되어 있는 값이 있다면 재귀 안돌고 갱신
 			if (childbad != 0) {
 				nowSum += childbad;
 			}
+			// 저장되어 있는 값이 없다면 재귀 실행
 			else {
 				nowSum += func(route[now][i], 0);
 			}
 		}
 		// now번째 마을이 우수마을이 아닐때
 		// 자기 자신의 마을의 시민수를 더하지 않는다
+		// 자식 마을은 우수마을일수도 있고 보통 마을일수도 있다
 		else {
 			if (childgood != 0 && childbad != 0) {
 				nowSum += max(childgood, childbad);
@@ -83,6 +89,7 @@ int func(int now, int good) {
 			}	
 		}
 	}
+	// 현재 마을에서 우수/ 비우수 값 저장
 	if (good) {
 		save[now][1] = nowSum;
 	}
@@ -97,6 +104,7 @@ int func(int now, int good) {
 int main() {
 
 	input();
+	// 1번 마을이 우수일때, 보통마을일때 중에 큰 값 출력
 	int Ans = max(func(1, 1), func(1, 0));
 	cout << Ans;
 	return 0;
